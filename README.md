@@ -1,2 +1,2 @@
 # UniPlaner
-Oraniation application for students
+Oraniation application adapted to HAW students
