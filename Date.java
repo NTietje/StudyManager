@@ -5,19 +5,20 @@ import java.util.GregorianCalendar;
 
 public class Date implements Comparable<Calendar>{
 	
-	Semester semester;
-	Course course;
-	Calendar today;
-	Calendar date;
-	Calendar remindDate;
+	private Semester semester;
+	private Course course;
+	private Calendar today;
+	private Calendar date;
+	private Calendar remindDate;
 	
-	String title;
-	String description;
-	int minutes;
-	int hours;
-	int day;
-	int month;
-	int year;
+	//boolean für Reminder
+	private String title;
+	private String description;
+	private int minutes; // alle Kalender Parameter durch ein Kalender Objekt ersetzten
+	private int hours;
+	private int day;
+	private int month;
+	private int year;
 	
 	//Konstruktor für Semestertermin
 	public Date(Semester semester, String title, String description, int year, int month, int day, int hours, int minutes, int remindTime) {
@@ -117,7 +118,7 @@ public class Date implements Comparable<Calendar>{
 			return false;
 		}
 	}
-	
+	//Methoden für verlgeichen von Greogorian Calender?
 	@Override
 	public int compareTo(Calendar o) {
 		// TODO Auto-generated method stub
