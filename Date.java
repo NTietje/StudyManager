@@ -1,65 +1,37 @@
 package lib;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 
-public class Date implements Comparable<Calendar>{
+public class Date implements Comparable<Date>{
 	
-	private Semester semester;
-	private Course course;
-	private Calendar today;
-	private Calendar date;
-	private Calendar remindDate;
+	//private Semester semester;
+	//private Course course;
+	private GregorianCalendar date;
+	private GregorianCalendar remindDate;
 	
-	//boolean für Reminder
 	private String title;
 	private String description;
-	private int minutes; // alle Kalender Parameter durch ein Kalender Objekt ersetzten
-	private int hours;
-	private int day;
-	private int month;
-	private int year;
+	private int remindTime;
 	
-	//Konstruktor für Semestertermin
-	public Date(Semester semester, String title, String description, int year, int month, int day, int hours, int minutes, int remindTime) {
-		this.semester = semester;
+	/*//Konstruktor für Semestertermin
+	public Date(String title, String description, GregorianCalendar date, int remindTime) {
+		//this.semester = semester;
 		this.title = title;
 		this.description = description;
-		
-		this.year = year;
-		this.month = month;
-		this.day = day;
-		this.hours = hours;
-		this. minutes = minutes;
-		
-		date = new GregorianCalendar(year, month-1, day, hours, minutes);
-		if(remindTime != 0) {
-			setReminder(remindTime);
-		}
-		
-		today = new GregorianCalendar();
-	}
+		this.date = date;
+	}*/
 	
 	//Konstruktor für Kurstermin
-	public Date(Course course, String title, String description, int year, int month, int day, int hours, int minutes, int remindTime) {
-		this.course = course;
+	public Date(String title, String description, GregorianCalendar date) {
+		//this.course = course;
 		this.title = title;
 		this.description = description;
-		
-		this.year = year;
-		this.month = month;
-		this.day = day;
-		this.hours = hours;
-		this. minutes = minutes;
-	
-		date = new GregorianCalendar(year, month-1, day, hours, minutes);
-		if(remindTime != 0) {
-			setReminder(remindTime);
-		}
-		
-		today = new GregorianCalendar();
+		this.date = date;
 	}
-	
+		
 	public String getTitle() {
 		return title;
 	}
@@ -68,29 +40,44 @@ public class Date implements Comparable<Calendar>{
 		this.title = title;
 	}
 	
-	public void setTime(int year, int month, int day, int hours, int minutes, int remindTime) {
-		this.year = year;
-		this.month = month;
-		this.day = day;
-		this.hours = hours;
-		this. minutes = minutes;
-		date = new GregorianCalendar(year, month-1, day, hours, minutes);
-		if(remindTime != 0) {
-			setReminder(remindTime);
+	public void setTime(GregorianCalendar date, int remindTime, boolean minute, boolean hours, boolean day, boolean weak) {
+		this.date = date;
+		System.out.println(remindTime);
+		System.out.println("this "+this.remindTime);
+		if (remindTime > 0) {
+			this.remindTime = remindTime;
+		}
+		System.out.println("this "+this.remindTime);
+		if (this.remindTime > 0) {
+			System.out.println("reminder gesettet");
+			setReminder(this.remindTime, minute, hours, day, weak);
 		}
 	}
 	
-	private void setReminder(int remindTime) {
-		if (remindTime<60) {
-			minutes -= remindTime;
+	private int getRemindTime() {
+		return this.remindTime;
+	}
+	
+	public GregorianCalendar getDate() {
+		return date;
+	}
+	
+	public void setReminder(int remindTime, boolean minute, boolean hours, boolean day, boolean weak) {
+		this.remindTime = remindTime;
+		remindDate = new GregorianCalendar(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.HOUR_OF_DAY), date.get(Calendar.MINUTE));
+		if (minute) {
+			remindDate.add(Calendar.MINUTE, -remindTime);
 		}
-		else if (remindTime<60*24) {
-			hours -= remindTime;
+		else if (hours) {
+			remindDate.add(Calendar.HOUR_OF_DAY, -remindTime);
 		}
-		else {
-			month -= remindTime;
+		else if (day) {
+			remindDate.add(Calendar.DAY_OF_MONTH, -remindTime);
 		}
-		remindDate = new GregorianCalendar(year, month-1, day, hours, minutes);
+		else if (weak) {
+			remindDate.add(Calendar.DAY_OF_MONTH, -remindTime*7);
+		}
+		
 	}
 	
 	public String getDescription() {
@@ -102,31 +89,100 @@ public class Date implements Comparable<Calendar>{
 	}
 	
 	
-	public boolean checkReminder() {
-		/*calendar.get(Calendar.YEAR);
-		calendar.get(Calendar.MONTH);
-		calendar.get(Calendar.DAY_OF_MONTH);
-		calendar.get(Calendar.HOUR_OF_DAY);
-		calendar.get(Calendar.MINUTE);
-		calendar.get(Calendar.SECOND);*/
-		
-		
-		if () {
+	public boolean remind(GregorianCalendar today) {
+		if (today.after(remindDate)) {
 			return true;
 		}
 		else {
 			return false;
 		}
 	}
-	//Methoden für verlgeichen von Greogorian Calender?
+	
 	@Override
-	public int compareTo(Calendar o) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int compareTo(Date d) {
+		if (date.equals(d.getDate())) {
+			return 0;
+		}
+		else if (date.after(d.getDate())) {
+			return -1;
+		}
+		else {
+			return 1;
+		}
+	}
+	
+	public boolean compare(Date d) {
+		if (compareTo(d) == 0 && title.equals(d.getTitle())) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	private void print() {
+		int year = date.get(Calendar.YEAR);
+		int month = date.get(Calendar.MONTH);
+		int day = date.get(Calendar.DAY_OF_MONTH);
+		int hours = date.get(Calendar.HOUR_OF_DAY);
+		int minute = date.get(Calendar.MINUTE);
+		System.out.println("Titel: " + getTitle() + " - Beschr: " + getDescription());
+		System.out.println(hours + ":" + minute
+				+ " - " + day + "." + month + "." + year);
+	}
+	
+	private void printR() {
+		if (remindDate != null ) {
+			int ryear = remindDate.get(Calendar.YEAR);
+			int rmonth = remindDate.get(Calendar.MONTH);
+			int rday = remindDate.get(Calendar.DAY_OF_MONTH);
+			int rhours = remindDate.get(Calendar.HOUR_OF_DAY);
+			int rminute = remindDate.get(Calendar.MINUTE);
+			System.out.println("Titel: " + getTitle() + " - Beschr: " + getDescription());
+			System.out.println(rhours + ":" + rminute
+					+ " - " + rday + "." + rmonth + "." + ryear);
+		}
 	}
 
 	public static void main(String[] args) {
-
+		GregorianCalendar jetzt = new GregorianCalendar();
+		Date t1 = new Date("P1", "Erster Termin", jetzt);
+		t1.print();
+		GregorianCalendar morgen = new GregorianCalendar(2016, 4, 19, 16, 10);
+		Date t2 = new Date("P2", "Zweiter Termin", morgen);
+		t2.print();
+		Date t3 = new Date("P3", "Dritter Termin", morgen);
+		t3.print();
+		t2.setReminder(15, true, false, false, false);
+		System.out.println(t1.compare(t2));
+		System.out.println(t2.compare(t3));
+		System.out.println(t2.compareTo(t3));
+		System.out.println(t1.compareTo(t2));
+		System.out.println(t2.remind(jetzt));
+		t2.printR();
+		t2.print();
+		System.out.println(t2.getDescription());
+		System.out.println(t2.getRemindTime());
+		t2.setTime(jetzt, 0, true, false, false, false);
+		t2.print();
+		t2.printR();
+		System.out.println(t2.getRemindTime());
+		GregorianCalendar g = new GregorianCalendar(2016, 4, 19, 10, 15);
+		Date t4 = new Date("P4", "new new", g);
+		ArrayList<Date> dates = new ArrayList<>();
+		dates.add(t1);
+		dates.add(t2);
+		dates.add(t3);
+		dates.add(t4);
+		for (Date d : dates) {
+			System.out.println(d.getTitle());
+		}
+		Collections.sort(dates);
+		System.out.println("\n");
+		for (Date d : dates) {
+			System.out.println(d.getTitle());
+		}
+		
 	}
 
 }
