@@ -1,21 +1,26 @@
 import java.io.File;
+import java.io.Serializable;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class Course implements Comparable<Course> {
+public class Course implements Comparable<Course>, Serializable {
+
+	static final long serialVersionUID = 1L;
 	private String title;
 	//private ArrayList<Date> events;
 	private Semester semester;
 	private ArrayList<File> documents;
-	private Path courseDirectory;
+	private String coursePathString;
 	private boolean enabled;
 	
 	public Course (Semester semester, String title){
+
 		Path path = semester.getPath().resolve(title) ;
 		try {
-			courseDirectory = Files.createDirectory(path);
+			coursePathString = Files.createDirectory(path).toString();
 		}
 		catch (FileAlreadyExistsException ex){
 			System.out.println("Es existiert bereits ein Kurs mit diesem Namen.");
@@ -25,19 +30,22 @@ public class Course implements Comparable<Course> {
 			System.out.println("Kurs konnte nicht erstellt werden");
 			return;
 		}
-		
+
 		this.semester = semester;
 		this.title = title;
-		
+
+
 		//events = new ArrayList<>();
 		documents = new ArrayList<>();
 		enabled = true;
+
 	}
 	
 	public void setTitle(String title) {
 		Path target = semester.getPath().resolve(title);
+		Path source = Paths.get(coursePathString);
 		try {
-		Files.walkFileTree(this.courseDirectory, new CopyFileVisitor(courseDirectory, target));
+			Files.walkFileTree(source, new MoveFileVisitor(Paths.get(coursePathString), target));
 		}
 		catch (Exception ex){
 			System.out.println("Der Umbenennungsprozess war nicht erfolgreich.");
@@ -59,13 +67,18 @@ public class Course implements Comparable<Course> {
 	}
 	
 	public void addEvent(Date event){
-  	//check whether event doesn't exist already!
-	events.add(event);
+  	if (!events.contains(event)) {
+			events.add(event);
+			Collections.sort(events);
+		}
+		else {
+			System.out.println("Dieser Termin existiert bereits.");
+		}
 	}
 
 	public void removeEvent(int index){
-	events.remove(index);
-	//remove via index or compare date and title of events?
+		events.remove(index);
+		//remove via index or compare date and title of events?
 	}*/
 	
 	public ArrayList<File> getDocuments() {

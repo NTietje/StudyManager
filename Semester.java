@@ -1,38 +1,59 @@
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Semester {
+/**
+ * Semester allows the user to assign each semester a title and a directory as well as a list of courses and events.
+ */
+public class Semester implements Serializable {
+
+    static final long serialVersionUID = 1L;
 	private String title;
-	private Path path;
+	private String path;
 	private ArrayList<Course> courses;
 	//private ArrayList<Date> events;
 	
-	public Semester(String title){
+	public Semester(String title, StudyManager manager){
+
+        this.title = title;
+        //events = new ArrayList<>();
+        courses = new ArrayList<>();
+
+        manager.addSemester(this);
 		try {
-		path = Files.createDirectory(Paths.get("." + title));
+			path = Files.createDirectory(Paths.get("." + title)).toString();
 		}
 		catch(FileAlreadyExistsException ex){
 			System.out.println("Ein Semester mit diesem Namen existiert bereits.");
-			return;
+            return;
+
 		}
 		catch (Exception e){
 			System.out.println("Das Semester konnte nicht erstellt werden.");
-			return;
+            return;
+
 		}
-		
-		this.title = title;
-		//events = new ArrayList<>();
-		courses = new ArrayList<>();
+
+        this.title = title;
+        //events = new ArrayList<>();
+        courses = new ArrayList<>();
+
+        manager.addSemester(this);
+
 	}
-	
+
+	/**
+	 * changes the title of the semester and renames the corresponding directory
+	 * @param title new title
+     */
 	public void setTitle(String title) {
 		Path target = Paths.get("." + title);
+        Path source = Paths.get(path);
 		try {
-			Files.walkFileTree(this.path, new CopyFileVisitor(path, target));
+			Files.walkFileTree(source, new MoveFileVisitor(Paths.get(path), target));
 		}
 		catch (Exception ex){
 			System.out.println("Der Umbenennungsprozess war nicht erfolgreich.");
@@ -40,25 +61,55 @@ public class Semester {
 		}
 		this.title = title;
 	}
-	
+
+	/**
+	 * returns the title of the given semester
+	 * @return
+     */
 	public String getTitle(){
 		return title;
 	}
-	
+
+	/**
+	 * returns the path to the corresponding directory
+	 * @return
+     */
 	public Path getPath() {
-		return path;
+		return Paths.get(path);
 	}
-	
+
+	/**
+	 * adds a course to the semester's list of courses
+	 * @param course course to add
+     */
 	public void addCourse(Course course){
 		if (!courses.contains(course)){
 			courses.add(course);
 			Collections.sort(courses);
 		}
 	}
-	
+
+	/**
+	 * removes a course from the list of courses and deletes the corresponding directory
+	 * @param course
+     */
 	public void removeCourse(Course course){
-		courses.remove(course);
-		Collections.sort(courses);
+		File file = new File(path, course.getTitle());
+		if (file.exists()){
+			try {
+				Deleter.delete(file);
+				courses.remove(course);
+				Collections.sort(courses);
+			}
+			catch (IOException ex){
+				System.out.println("Auf den Kurs kann nicht zugegriffen werden.");
+			}
+		}
+		else {
+			System.out.println("Der angegebene Kurs existiert nicht.");
+		}
+
+
 	}
 	
 	/*public ArrayList<Date> getEvents(){
@@ -67,8 +118,13 @@ public class Semester {
 	
 	 public void addEvent(Date event){
 		//check whether event already exists!
-		events.add(event);
-		Collections.sort(events);
+		if (!events.contains(event)) {
+			events.add(event);
+			Collections.sort(events);
+		}
+		else {
+			System.out.println("Dieser Termin existiert bereits.");
+		}
 	}
 	
 	public void removeEvent(Date event){
