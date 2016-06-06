@@ -6,6 +6,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+/**
+ * Course allows the user to assign each course a title, a list of documents and a directory as well as the semester
+ * it belongs to.
+ */
 public class Course implements Comparable<Course>, Serializable {
 
 	static final long serialVersionUID = 1L;
@@ -40,7 +44,11 @@ public class Course implements Comparable<Course>, Serializable {
 		enabled = true;
 
 	}
-	
+
+	/**
+	 * sets the title of the course and changes the name of the directory accordingly
+	 * @param title new title
+     */
 	public void setTitle(String title) {
 		Path target = semester.getPath().resolve(title);
 		Path source = Paths.get(coursePathString);
@@ -53,20 +61,36 @@ public class Course implements Comparable<Course>, Serializable {
 		}
 		this.title = title;
 	}
-	
+
+	/**
+	 * returns the title of the course
+	 * @return
+     */
 	public String getTitle(){
 		return title;
 	}
-	
+
+	/**
+	 * returns the semester to which the course belongs
+	 * @return
+     */
 	public Semester getSemester() {
 		return semester;
 	}
-	
+
+	/**
+	 * returns the list of events associated with the course
+	 * @return
+     */
 	/*public ArrayList<Date> getEvents(){
 		return events;
-	}
-	
-	public void addEvent(Date event){
+	}*/
+
+
+	/**
+	 * adds an event to the list of events and updates its order
+     */
+	/*public void addEvent(Date event){
   	if (!events.contains(event)) {
 			events.add(event);
 			Collections.sort(events);
@@ -74,27 +98,46 @@ public class Course implements Comparable<Course>, Serializable {
 		else {
 			System.out.println("Dieser Termin existiert bereits.");
 		}
-	}
+	}*/
 
-	public void removeEvent(int index){
+	/**
+	 * removes an event from the list
+     */
+	/*public void removeEvent(int index){
 		events.remove(index);
 		//remove via index or compare date and title of events?
 	}*/
-	
+
+	/**
+	 * returns a list of the documents that belong to the course
+	 * @return
+     */
 	public ArrayList<File> getDocuments() {
 		return documents;
 	}
-	
+
+	/**
+	 * enables the course, so that its upcoming events are displayed
+	 * @param enabled
+     */
 	public void setCourseEnabled(boolean enabled){
 		this.enabled = enabled;
 	}
-	
+
+	/**
+	 * returns whether the course is enabled or not
+	 * @return
+     */
 	public boolean getCourseEnabled(){
 		return enabled;
 	}
-	
-	
-	//compare courses according to title
+
+
+	/**
+	 * compares courses according to title
+	 * @param course
+	 * @return
+     */
 	public int compareTo (Course course){
 		return title.compareTo(course.getTitle());
 	}

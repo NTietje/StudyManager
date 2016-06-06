@@ -111,12 +111,20 @@ public class Semester implements Serializable {
 
 
 	}
-	
+
+    /**
+     * returns a list of the semester's events
+     * @return
+     */
 	/*public ArrayList<Date> getEvents(){
 		return events;
 	}
-	
-	 public void addEvent(Date event){
+
+    /**
+     * adds an event to the semester's list and updates the order of the list
+     * @param event
+     */
+	/* public void addEvent(Date event){
 		//check whether event already exists!
 		if (!events.contains(event)) {
 			events.add(event);
@@ -126,8 +134,12 @@ public class Semester implements Serializable {
 			System.out.println("Dieser Termin existiert bereits.");
 		}
 	}
-	
-	public void removeEvent(Date event){
+
+    /**
+     * removes the given element from the list and updates its order
+     * @param event
+     */
+	/*public void removeEvent(Date event){
 		events.remove(event);
 		Collections.sort(event);
 	}*/
