@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -114,6 +115,41 @@ public class Course implements Comparable<Course>, Serializable {
      */
 	public ArrayList<File> getDocuments() {
 		return documents;
+	}
+	
+	/**
+	 * copies the given file to the course directory and adds it to the list of files
+	 * @param File document to be added
+	 */
+	public void addDocument(File document){
+		if (!documents.contains(document)){
+			//copy file to course directory
+			try{
+			Files.copy(Paths.get(document.getAbsolutePath()), Paths.get(coursePathString).resolve(document.getName()));
+			}
+			catch (Exception e){
+				e.printStackTrace();
+				System.out.println("Datei konnte nicht importiert werden.");
+				return;
+			}
+			//add file to list of documents
+			documents.add(document);
+		}
+	}
+	
+	/**
+	 * deletes given file from course directory and removes it from the list of documents
+	 * @param document
+	 */
+	public void removeDocument(File document){
+		try {
+			Files.deleteIfExists(Paths.get(document.getAbsolutePath()));
+		}
+		catch (IOException e){
+			System.out.println("Datei konnte nicht gelöscht werden.");
+			return;
+		}
+		documents.remove(document);
 	}
 
 	/**
