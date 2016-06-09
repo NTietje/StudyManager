@@ -16,13 +16,12 @@ public class Semester implements Serializable {
 	private ArrayList<Course> courses;
 	//private ArrayList<Date> events;
 	
-	public Semester(String title, StudyManager manager){
+	public Semester(String title){
 
         this.title = title;
         //events = new ArrayList<>();
         courses = new ArrayList<>();
 
-        manager.addSemester(this);
 		try {
 			path = Files.createDirectory(Paths.get("." + title)).toString();
 		}
@@ -40,8 +39,6 @@ public class Semester implements Serializable {
         this.title = title;
         //events = new ArrayList<>();
         courses = new ArrayList<>();
-
-        manager.addSemester(this);
 
 	}
 

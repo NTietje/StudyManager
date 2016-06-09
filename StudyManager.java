@@ -1,5 +1,8 @@
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * StudyManager manages the different semesters of a given course of studies.
@@ -21,8 +24,8 @@ public class StudyManager implements Serializable {
      * adds a new semester to the list
      * @param semester to be added
      */
-    public void addSemester(Semester semester) {
-        semesters.add(semester);
+    public void addSemester(String semesterTitle) {
+        semesters.add(new Semester(semesterTitle));
     }
 
     /**
@@ -31,9 +34,21 @@ public class StudyManager implements Serializable {
      */
     public void removeSemester (Semester semester) {
         for (int i = 0; i < semesters.size(); i++){
-            if (semester.getTitle().equals(semesters.get(i).getTitle())){
-                semesters.remove(i);
-                return;
+        	Semester sem = semesters.get(i);
+            if (semester.getTitle().equals(sem.getTitle())){
+            	File file = new File(sem.getPath().toString());
+        		if (file.exists()){
+        			try {
+        				Deleter.delete(file);
+        				semesters.remove(i);
+        				return;
+        				//Collections.sort(semesters);
+        			}
+        			catch (IOException ex){
+        				System.out.println("Auf den Kurs kann nicht zugegriffen werden.");
+        				return;
+        			}
+        		}
             }
         }
     }
