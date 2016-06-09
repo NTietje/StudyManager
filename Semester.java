@@ -85,6 +85,14 @@ public class Semester implements Serializable {
 			Collections.sort(courses);
 		}
 	}
+	
+	/**
+	 * returns list of courses
+	 * @return
+	 */
+	public ArrayList<Course> getCourses(){
+		return courses;
+	}
 
 	/**
 	 * removes a course from the list of courses and deletes the corresponding directory
