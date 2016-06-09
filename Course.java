@@ -21,7 +21,7 @@ public class Course implements Comparable<Course>, Serializable {
 	private String coursePathString;
 	private boolean enabled;
 	
-	public Course (Semester semester, String title){
+	public Course (Semester semester, String title) throws FileAlreadyExistsException, Exception{
 
 		Path path = semester.getPath().resolve(title) ;
 		try {
@@ -29,11 +29,11 @@ public class Course implements Comparable<Course>, Serializable {
 		}
 		catch (FileAlreadyExistsException ex){
 			System.out.println("Es existiert bereits ein Kurs mit diesem Namen.");
-			return;
+			throw ex;
 		}
 		catch (Exception e){
 			System.out.println("Kurs konnte nicht erstellt werden");
-			return;
+			throw e;
 		}
 
 		this.semester = semester;
