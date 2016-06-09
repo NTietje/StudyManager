@@ -52,6 +52,14 @@ public class StudyManager implements Serializable {
             }
         }
     }
+    
+    /**
+     * returns list of all semesters
+     * @return
+     */
+    public ArrayList<Semester> getSemesters() {
+    	return semesters;
+    }
 
     /**
      * returns the semester identified by the given title and null, if there is no such semester
