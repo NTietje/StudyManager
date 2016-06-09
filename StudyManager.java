@@ -1,8 +1,10 @@
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * StudyManager manages the different semesters of a given course of studies.
@@ -11,9 +13,11 @@ public class StudyManager implements Serializable {
 
     static final long serialVersionUID = 1L;
     private ArrayList<Semester> semesters;
+    private String managerPathString;
 
     public StudyManager() {
         semesters = new ArrayList<>();
+        
     }
 
     public void test() {
@@ -25,7 +29,15 @@ public class StudyManager implements Serializable {
      * @param semester to be added
      */
     public void addSemester(String semesterTitle) {
-        semesters.add(new Semester(semesterTitle));
+    	try {
+    		semesters.add(new Semester(semesterTitle));
+    	}
+    	catch (FileAlreadyExistsException ex){
+    		System.out.println("Ein Semester mit diesem Namen existiert bereits.");
+    	}
+    	catch (Exception ex) {
+    		System.out.println("Das Semester konnte nicht erstellt werden.");
+    	}
     }
 
     /**

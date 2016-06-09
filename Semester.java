@@ -16,7 +16,7 @@ public class Semester implements Serializable {
 	private ArrayList<Course> courses;
 	//private ArrayList<Date> events;
 	
-	public Semester(String title){
+	public Semester(String title) throws FileAlreadyExistsException, Exception {
 
         this.title = title;
         //events = new ArrayList<>();
@@ -26,19 +26,11 @@ public class Semester implements Serializable {
 			path = Files.createDirectory(Paths.get("." + title)).toString();
 		}
 		catch(FileAlreadyExistsException ex){
-			System.out.println("Ein Semester mit diesem Namen existiert bereits.");
-            return;
-
+			throw ex;
 		}
 		catch (Exception e){
-			System.out.println("Das Semester konnte nicht erstellt werden.");
-            return;
-
+			throw e;
 		}
-
-        this.title = title;
-        //events = new ArrayList<>();
-        courses = new ArrayList<>();
 
 	}
 
