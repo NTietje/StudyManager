@@ -60,7 +60,7 @@ public class Course implements Comparable<Course> {
 	
 	public void addEvent(Date event){
   	//check whether event doesn't exist already!
-	events.add(event);
+		events.add(event);
 	}
 
 	public void removeEvent(int index){

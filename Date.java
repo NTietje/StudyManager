@@ -1,4 +1,4 @@
-package lib;
+//package lib;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -104,11 +104,12 @@ public class Date implements Comparable<Date>{
 			return 0;
 		}
 		else if (date.after(d.getDate())) {
-			return -1;
-		}
-		else {
 			return 1;
 		}
+		else {
+			return -1;
+		}
+		//return date.compareTo(d.getDate());
 	}
 	
 	public boolean compare(Date d) {
@@ -153,7 +154,7 @@ public class Date implements Comparable<Date>{
 		t2.print();
 		Date t3 = new Date("P3", "Dritter Termin", morgen);
 		t3.print();
-		t2.setReminder(15, true, false, false, false);
+		/*t2.setReminder(15, true, false, false, false);
 		System.out.println(t1.compare(t2));
 		System.out.println(t2.compare(t3));
 		System.out.println(t2.compareTo(t3));
@@ -166,7 +167,7 @@ public class Date implements Comparable<Date>{
 		t2.setTime(jetzt, 0, true, false, false, false);
 		t2.print();
 		t2.printR();
-		System.out.println(t2.getRemindTime());
+		System.out.println(t2.getRemindTime());*/
 		GregorianCalendar g = new GregorianCalendar(2016, 4, 19, 10, 15);
 		Date t4 = new Date("P4", "new new", g);
 		ArrayList<Date> dates = new ArrayList<>();
