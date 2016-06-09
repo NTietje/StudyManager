@@ -1,0 +1,107 @@
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class UniplanerGUI extends JFrame{
+	
+	public UniplanerGUI() {
+		
+		//Farbtheme 			#############################################
+		Color dateColor = new Color(240, 240, 240); 
+		Color headerColor = new Color(200, 200, 200);
+		Color mainPanelColor = Color.WHITE;
+		Color fondColor = Color.BLACK;
+		
+		//Panel Semester 		#############################################
+		JPanel semesterPanel = new JPanel();
+		JPanel semesterHost = new JPanel();
+		JTextArea howTo = new JTextArea("Herzlich Willkommen!\nLegen sie zuerst ein Semester an, um Kurse oder Termine hinzuzufügen.");
+		
+		howTo.setPreferredSize(new Dimension(400, 50));
+		howTo.setForeground(fondColor);
+		howTo.setBorder(null);
+		howTo.setOpaque(false);
+		howTo.setEditable(false);
+		howTo.setLineWrap(true);
+		howTo.setWrapStyleWord(true);
+		
+		JLabel semesterLabel = new JLabel("Semester");
+		semesterLabel.setForeground(fondColor);
+		
+		semesterPanel.setLayout(new FlowLayout());
+		semesterPanel.setBackground(mainPanelColor);
+		semesterPanel.add(howTo);
+		
+		semesterHost.setLayout(new BoxLayout(semesterHost, BoxLayout.Y_AXIS));
+		//semesterHost.setBorder(BorderFactory.createLineBorder(mainPanelColor));
+		semesterHost.setPreferredSize(new Dimension(450, 500));
+		semesterHost.setMaximumSize(new Dimension(2000, 2000));
+		semesterHost.setBackground(headerColor);
+		semesterHost.add(semesterLabel);
+		semesterHost.add(semesterPanel);
+		
+			//SemesterButtons
+			JTextField semesterName = new JTextField("Semester hinzufügen");
+			JButton addSem = new JButton("Add");
+			JPanel addSemester = new JPanel();
+			
+			addSemester.add(semesterName);
+			addSemester.add(addSem);
+			addSemester.setBackground(mainPanelColor);
+			
+			semesterPanel.add(addSemester);
+			
+		//Panel Termine 		#############################################
+		JPanel datePanel = new JPanel();
+		JPanel dateHost = new JPanel();
+		JLabel dateLabel = new JLabel("Termine");
+		
+		dateLabel.setForeground(fondColor);
+		//datePanel.setBorder(BorderFactory.createLineBorder(mainPanelColor));
+		datePanel.setBackground(dateColor);
+		
+		dateHost.setLayout(new BoxLayout(dateHost, BoxLayout.Y_AXIS));
+		dateHost.setPreferredSize(new Dimension(200, 500));
+		dateHost.setMaximumSize(new Dimension(400, 1500));
+		dateHost.setMinimumSize(new Dimension(100, 200));
+		dateHost.setBackground(headerColor);
+		dateHost.add(dateLabel);
+		dateHost.add(datePanel);
+		
+		//Uniplaner Hauptfenster #############################################
+		JPanel host = new JPanel();
+		
+		this.setTitle("UniPlaner");
+		this.setLayout(new BorderLayout());
+		getContentPane().setBackground(mainPanelColor);
+		
+		host.setBackground(headerColor);
+		host.setLayout(new BoxLayout(host, BoxLayout.X_AXIS));
+		host.add(dateHost);
+		host.add(semesterHost);
+		add(host, BorderLayout.CENTER);
+		
+		//Fenster anzeigen 		#############################################
+		setVisible(true);
+		setPreferredSize(new Dimension(650, 500));
+		pack();
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+	
+
+	public static void main(String[] args) {
+		new UniplanerGUI();
+	}
+
+}

@@ -100,16 +100,8 @@ public class Date implements Comparable<Date>{
 	
 	@Override
 	public int compareTo(Date d) {
-		if (date.equals(d.getDate())) {
-			return 0;
-		}
-		else if (date.after(d.getDate())) {
-			return 1;
-		}
-		else {
-			return -1;
-		}
-		//return date.compareTo(d.getDate());
+
+		return date.compareTo(d.getDate());
 	}
 	
 	public boolean compare(Date d) {
@@ -121,6 +113,53 @@ public class Date implements Comparable<Date>{
 		}
 	}
 	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Date)) {
+			return false;
+		}
+		Date other = (Date) obj;
+		if (date == null) {
+			if (other.date != null) {
+				return false;
+			}
+		} else if (!date.equals(other.date)) {
+			return false;
+		}
+		if (description == null) {
+			if (other.description != null) {
+				return false;
+			}
+		} else if (!description.equals(other.description)) {
+			return false;
+		}
+		if (remindDate == null) {
+			if (other.remindDate != null) {
+				return false;
+			}
+		} else if (!remindDate.equals(other.remindDate)) {
+			return false;
+		}
+		if (remindTime != other.remindTime) {
+			return false;
+		}
+		if (title == null) {
+			if (other.title != null) {
+				return false;
+			}
+		} else if (!title.equals(other.title)) {
+			return false;
+		}
+		return true;
+	}
+
 	private void print() {
 		int year = date.get(Calendar.YEAR);
 		int month = date.get(Calendar.MONTH);
