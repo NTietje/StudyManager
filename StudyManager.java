@@ -28,16 +28,8 @@ public class StudyManager implements Serializable {
      * adds a new semester to the list
      * @param semester to be added
      */
-    public void addSemester(String semesterTitle) {
-    	try {
-    		semesters.add(new Semester(semesterTitle));
-    	}
-    	catch (FileAlreadyExistsException ex){
-    		System.out.println("Ein Semester mit diesem Namen existiert bereits.");
-    	}
-    	catch (Exception ex) {
-    		System.out.println("Das Semester konnte nicht erstellt werden.");
-    	}
+    public void addSemester(Semester semester) {
+    		semesters.add(semester);
     }
 
     /**
