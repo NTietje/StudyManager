@@ -111,8 +111,15 @@ public class Semester implements Serializable {
 		else {
 			System.out.println("Der angegebene Kurs existiert nicht.");
 		}
-
-
+	}
+	
+	/**
+	 * identifies semesters by title
+	 * @param semester
+	 * @return
+	 */
+	public boolean equals(Semester semester){
+		return this.title.equals(semester.getTitle());
 	}
 
     /**
