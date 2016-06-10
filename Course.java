@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 /**
  * Course allows the user to assign each course a title, a list of documents and a directory as well as the semester
  * it belongs to.
@@ -123,17 +125,32 @@ public class Course implements Comparable<Course>, Serializable {
 	 */
 	public void addDocument(File document){
 		if (!documents.contains(document)){
+			Path sourcePath = Paths.get(document.getAbsolutePath());
+			Path targetPath = Paths.get(coursePathString).resolve(document.getName());
+			Path path;
 			//copy file to course directory
 			try{
-			Files.copy(Paths.get(document.getAbsolutePath()), Paths.get(coursePathString).resolve(document.getName()));
+				path = Files.copy(sourcePath, targetPath);
+				//add file to list of documents
+				documents.add(path.toFile());
+			}
+			catch (FileAlreadyExistsException ex){
+				//prompt user to enter new file name
+				String newName = JOptionPane.showInputDialog("Eine Datei mit diesem Namen existiert bereits. Bitte gib einen neuen Namen ein:", JOptionPane.OK_CANCEL_OPTION);
+				targetPath = Paths.get(coursePathString).resolve(newName);
+				try {
+					path = Files.copy(sourcePath, targetPath);
+					documents.add(path.toFile());
+				}
+				catch (Exception exc){
+					JOptionPane.showMessageDialog(null, "Die Datei konnte leider nicht importiert werden.");
+				}
 			}
 			catch (Exception e){
 				e.printStackTrace();
-				System.out.println("Datei konnte nicht importiert werden.");
+				JOptionPane.showMessageDialog(null, "Die Datei konnte leider nicht importiert werden.");
 				return;
 			}
-			//add file to list of documents
-			documents.add(document);
 		}
 	}
 	
