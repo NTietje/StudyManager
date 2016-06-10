@@ -71,11 +71,17 @@ public class Semester implements Serializable {
 	 * adds a course to the semester's list of courses
 	 * @param course course to add
      */
-	public void addCourse(Course course){
-		if (!courses.contains(course)){
-			courses.add(course);
+	public void addCourse(String title){
+			try {
+			courses.add(new Course(this,title));
 			Collections.sort(courses);
-		}
+			}
+			catch (FileAlreadyExistsException ex){
+				System.out.println("Ein Kurs mit diesem Namen existiert bereits.");
+			}
+			catch (Exception ex){
+				System.out.println("Der Kurs konnte leider nicht erzeugt werden.");
+			}
 	}
 	
 	/**
