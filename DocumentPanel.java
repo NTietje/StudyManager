@@ -14,7 +14,6 @@
 	import javax.swing.DefaultListModel;
 	import javax.swing.JButton;
 	import javax.swing.JFileChooser;
-	import javax.swing.JFrame;
 	import javax.swing.JList;
 	import javax.swing.JOptionPane;
 	import javax.swing.JPanel;
@@ -27,7 +26,7 @@
 	 * @author katharina
 	 *
 	 */
-	public class DocumentPanel extends JFrame {
+	public class DocumentPanel {
 		private DefaultListModel <File> listModel;
 		private Course course;
 		
@@ -35,6 +34,7 @@
 			this.course = course;
 			
 			//panel displaying list of documents and buttons
+			JPanel topPanel = new JPanel();
 			JPanel documentPanel = new JPanel();
 			JPanel btnPanel = new JPanel();
 			documentPanel.setLayout(new BorderLayout());
@@ -60,13 +60,13 @@
 			exportBtn.setEnabled(false);
 			deleteBtn.setEnabled(false);
 			
-			add(list, BorderLayout.CENTER);
-			add(btnPanel, BorderLayout.SOUTH);
+			topPanel.add(list, BorderLayout.CENTER);
+			topPanel.add(btnPanel, BorderLayout.SOUTH);
 			btnPanel.add(importBtn);
 			btnPanel.add(exportBtn);
 			btnPanel.add(deleteBtn);
 			
-			containerPanel.add(documentPanel);
+			containerPanel.add(topPanel);
 			
 			/**
 			 * enables button if user has selected a file, else disable it
@@ -96,7 +96,7 @@
 				public void actionPerformed(ActionEvent e){
 					JFileChooser fileChooser = new JFileChooser();
 					//@Nina: statt Tester.this AktuelleKlasse.this
-					int opt = fileChooser.showDialog(DocumentPanel.this, "Importieren");
+					int opt = fileChooser.showDialog(null, "Importieren");
 					if (opt == JFileChooser.APPROVE_OPTION){
 						File file = fileChooser.getSelectedFile();
 						//@Nina: wieder statt Tester.this AktuelleKlasse.this (um auf Variable course zugreifen zu koennen)
@@ -114,7 +114,7 @@
 				
 				public void actionPerformed(ActionEvent e){
 					JFileChooser fileChooser = new JFileChooser();
-					int opt = fileChooser.showDialog(DocumentPanel.this, "Exportieren");
+					int opt = fileChooser.showDialog(null, "Exportieren");
 					if (opt == JFileChooser.APPROVE_OPTION){
 						File fileSource = list.getSelectedValue();
 						Path sourcePath = Paths.get(fileSource.getAbsolutePath());
@@ -144,11 +144,6 @@
 					}
 				}
 			});
-			
-			
-			setVisible(true);
-			setDefaultCloseOperation(EXIT_ON_CLOSE);
-			setSize(200,200);
 			
 		}
 		
