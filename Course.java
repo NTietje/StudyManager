@@ -137,7 +137,7 @@ public class Course implements Comparable<Course>, Serializable {
 			}
 			catch (FileAlreadyExistsException ex){
 				//prompt user to enter new file name
-				String newName = JOptionPane.showInputDialog("Eine Datei mit diesem Namen existiert bereits. Bitte gib einen neuen Namen ein:", JOptionPane.OK_CANCEL_OPTION);
+				String newName = JOptionPane.showInputDialog("A file with that name already exists.\n Please enter a new name:", JOptionPane.OK_CANCEL_OPTION);
 				targetPath = Paths.get(coursePathString).resolve(newName);
 				try {
 					path = Files.copy(sourcePath, targetPath);
