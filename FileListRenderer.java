@@ -1,3 +1,5 @@
+package lib;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.io.File;

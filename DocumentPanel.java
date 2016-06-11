@@ -1,5 +1,6 @@
 //package lib;
 
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -47,6 +48,7 @@ public class DocumentPanel {
 		containerPanel.setLayout(new BorderLayout());
 		containerPanel.setPreferredSize(new Dimension(440, 500));
 		containerPanel.setMaximumSize(new Dimension(2000, 2000));
+		containerPanel.setMinimumSize(new Dimension(100, 100));
 		
 		JPanel btnPanel = new JPanel();
 		btnPanel.setLayout(new FlowLayout());
@@ -60,7 +62,7 @@ public class DocumentPanel {
 		deleteBtn.setEnabled(false);
 		
 		//displaying list in vertical order and several columns
-		list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		list.setLayoutOrientation(JList.VERTICAL_WRAP);
 		list.setVisibleRowCount(-1);
 		list.setCellRenderer(new FileListRenderer());
 		

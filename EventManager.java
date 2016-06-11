@@ -1,6 +1,11 @@
+package lib;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+
+import javax.swing.JButton;
 
 /**
  * EventManager checks which events the user would like to be reminded of on a given day.
@@ -18,14 +23,14 @@ public class EventManager {
 	 * returns a list of events of which the user would like to be reminded at this moment 
 	 * @return ArrayList eventList
 	 */
-	public ArrayList<Event> updateEvents() {
+	public ArrayList<Date> updateEvents() {
 		GregorianCalendar today = new GregorianCalendar();
-		ArrayList<Event> eventList = new ArrayList<Event>();
-		Event event;
+		ArrayList<Date> eventList = new ArrayList<Date>();
+		Date event;
 		ArrayList<Semester> semesters = manager.getSemesters();
 		for (int i = 0; i < semesters.size(); i++){
 			Semester semester = semesters.get(i);
-			ArrayList<Event> semesterEvents = semester.getEvents();
+			ArrayList<Date> semesterEvents = semester.getEvents();
 			for (int l = 0; l < semesterEvents.size(); l++){
 				event = semesterEvents.get(l);
 				if (event.remind(today)){
@@ -35,7 +40,7 @@ public class EventManager {
 			ArrayList<Course> courses = semester.getCourses();
 			for (int j = 0; j < courses.size(); j++){
 				Course course = courses.get(j);
-				ArrayList<Event> courseEvents = course.getEvents();
+				ArrayList<Date> courseEvents = course.getEvents();
 				for (int k = 0; k < courseEvents.size(); k++){
 					event = courseEvents.get(k);
 					if (event.remind(today)){
