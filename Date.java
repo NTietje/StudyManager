@@ -1,11 +1,9 @@
-//package lib;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 
-public class Date implements Comparable<Date>{
+public class Date implements Comparable<Date>, Serializable{
 	
 	//private Semester semester;
 	//private Course course;
@@ -100,7 +98,6 @@ public class Date implements Comparable<Date>{
 	
 	@Override
 	public int compareTo(Date d) {
-
 		return date.compareTo(d.getDate());
 	}
 	
@@ -182,47 +179,6 @@ public class Date implements Comparable<Date>{
 			System.out.println(rhours + ":" + rminute
 					+ " - " + rday + "." + rmonth + "." + ryear);
 		}
-	}
-
-	public static void main(String[] args) {
-		GregorianCalendar jetzt = new GregorianCalendar();
-		Date t1 = new Date("P1", "Erster Termin", jetzt);
-		t1.print();
-		GregorianCalendar morgen = new GregorianCalendar(2016, 4, 19, 16, 10);
-		Date t2 = new Date("P2", "Zweiter Termin", morgen);
-		t2.print();
-		Date t3 = new Date("P3", "Dritter Termin", morgen);
-		t3.print();
-		/*t2.setReminder(15, true, false, false, false);
-		System.out.println(t1.compare(t2));
-		System.out.println(t2.compare(t3));
-		System.out.println(t2.compareTo(t3));
-		System.out.println(t1.compareTo(t2));
-		System.out.println(t2.remind(jetzt));
-		t2.printR();
-		t2.print();
-		System.out.println(t2.getDescription());
-		System.out.println(t2.getRemindTime());
-		t2.setTime(jetzt, 0, true, false, false, false);
-		t2.print();
-		t2.printR();
-		System.out.println(t2.getRemindTime());*/
-		GregorianCalendar g = new GregorianCalendar(2016, 4, 19, 10, 15);
-		Date t4 = new Date("P4", "new new", g);
-		ArrayList<Date> dates = new ArrayList<>();
-		dates.add(t1);
-		dates.add(t2);
-		dates.add(t3);
-		dates.add(t4);
-		for (Date d : dates) {
-			System.out.println(d.getTitle());
-		}
-		Collections.sort(dates);
-		System.out.println("\n");
-		for (Date d : dates) {
-			System.out.println(d.getTitle());
-		}
-		
 	}
 
 }
