@@ -18,7 +18,6 @@ public class Course extends StudyUnit implements Comparable<Course>, Serializabl
 
 	static final long serialVersionUID = 1L;
 	private String title;
-	private ArrayList<Event> events;
 	private Semester semester;
 	private ArrayList<File> documents;
 	private String coursePathString;
@@ -43,7 +42,6 @@ public class Course extends StudyUnit implements Comparable<Course>, Serializabl
 		this.title = title;
 
 
-		events = new ArrayList<>();
 		documents = new ArrayList<>();
 		enabled = true;
 

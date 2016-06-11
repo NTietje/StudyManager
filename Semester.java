@@ -15,12 +15,10 @@ public class Semester extends StudyUnit implements Serializable {
 	private String title;
 	private String path;
 	private ArrayList<Course> courses;
-	private ArrayList<Event> events;
 	
 	public Semester(String title) throws FileAlreadyExistsException, Exception {
 
         this.title = title;
-        events = new ArrayList<>();
         courses = new ArrayList<>();
 
 		try {

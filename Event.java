@@ -9,6 +9,7 @@ public class Event implements Comparable<Event>, Serializable{
 	//private Course course;
 	private GregorianCalendar date;
 	private GregorianCalendar remindDate;
+	private boolean [] remindInterval = {false, false, false, false};
 	
 	private String title;
 	private String description;
@@ -52,15 +53,23 @@ public class Event implements Comparable<Event>, Serializable{
 		}
 	}
 	
-	private int getRemindTime() {
+	public int getRemindTime() {
 		return this.remindTime;
 	}
 	
 	public GregorianCalendar getDate() {
 		return date;
 	}
+
+	public void setDate (GregorianCalendar date) {
+		this.date = date;
+	}
 	
 	public void setReminder(int remindTime, boolean minute, boolean hours, boolean day, boolean weak) {
+		remindInterval[0] = minute;
+		remindInterval[1] = hours;
+		remindInterval[2] = day;
+		remindInterval[3] = weak;
 		this.remindTime = remindTime;
 		remindDate = new GregorianCalendar(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH), date.get(Calendar.HOUR_OF_DAY), date.get(Calendar.MINUTE));
 		if (minute) {
@@ -94,6 +103,14 @@ public class Event implements Comparable<Event>, Serializable{
 		else {
 			return false;
 		}
+	}
+
+	/**
+	 * returns array of boolean indicating whether the user wants to be reminded minutes, hours, days or weeks before the event
+	 * @return
+     */
+	public boolean[] getRemindInterval() {
+		return remindInterval;
 	}
 	
 	@Override
