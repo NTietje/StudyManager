@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JOptionPane;
 
@@ -17,7 +18,7 @@ public class Course implements Comparable<Course>, Serializable {
 
 	static final long serialVersionUID = 1L;
 	private String title;
-	//private ArrayList<Date> events;
+	private ArrayList<Date> events;
 	private Semester semester;
 	private ArrayList<File> documents;
 	private String coursePathString;
@@ -42,7 +43,7 @@ public class Course implements Comparable<Course>, Serializable {
 		this.title = title;
 
 
-		//events = new ArrayList<>();
+		events = new ArrayList<>();
 		documents = new ArrayList<>();
 		enabled = true;
 
@@ -85,15 +86,15 @@ public class Course implements Comparable<Course>, Serializable {
 	 * returns the list of events associated with the course
 	 * @return
      */
-	/*public ArrayList<Date> getEvents(){
+	public ArrayList<Date> getEvents(){
 		return events;
-	}*/
+	}
 
 
 	/**
 	 * adds an event to the list of events and updates its order
      */
-	/*public void addEvent(Date event){
+	public void addEvent(Date event){
   	if (!events.contains(event)) {
 			events.add(event);
 			Collections.sort(events);
@@ -101,15 +102,15 @@ public class Course implements Comparable<Course>, Serializable {
 		else {
 			System.out.println("Dieser Termin existiert bereits.");
 		}
-	}*/
+	}
 
 	/**
 	 * removes an event from the list
      */
-	/*public void removeEvent(int index){
+	public void removeEvent(int index){
 		events.remove(index);
 		//remove via index or compare date and title of events?
-	}*/
+	}
 
 	/**
 	 * returns a list of the documents that belong to the course
@@ -121,7 +122,7 @@ public class Course implements Comparable<Course>, Serializable {
 	
 	/**
 	 * copies the given file to the course directory and adds it to the list of files
-	 * @param File document to be added
+	 * @param document to be added
 	 */
 	public void addDocument(File document){
 		if (!documents.contains(document)){
