@@ -18,7 +18,7 @@ public class Course implements Comparable<Course>, Serializable {
 
 	static final long serialVersionUID = 1L;
 	private String title;
-	private ArrayList<Date> events;
+	private ArrayList<Event> events;
 	private Semester semester;
 	private ArrayList<File> documents;
 	private String coursePathString;
@@ -86,7 +86,7 @@ public class Course implements Comparable<Course>, Serializable {
 	 * returns the list of events associated with the course
 	 * @return
      */
-	public ArrayList<Date> getEvents(){
+	public ArrayList<Event> getEvents(){
 		return events;
 	}
 
@@ -94,7 +94,7 @@ public class Course implements Comparable<Course>, Serializable {
 	/**
 	 * adds an event to the list of events and updates its order
      */
-	public void addEvent(Date event){
+	public void addEvent(Event event){
   	if (!events.contains(event)) {
 			events.add(event);
 			Collections.sort(events);

@@ -14,7 +14,7 @@ public class Semester implements Serializable {
 	private String title;
 	private String path;
 	private ArrayList<Course> courses;
-	private ArrayList<Date> events;
+	private ArrayList<Event> events;
 	
 	public Semester(String title) throws FileAlreadyExistsException, Exception {
 
@@ -118,7 +118,7 @@ public class Semester implements Serializable {
      * returns a list of the semester's events
      * @return
      */
-	public ArrayList<Date> getEvents(){
+	public ArrayList<Event> getEvents(){
 		return events;
 	}
 
@@ -126,7 +126,7 @@ public class Semester implements Serializable {
      * adds an event to the semester's list and updates the order of the list
      * @param event
      */
-	public void addEvent(Date event){
+	public void addEvent(Event event){
 		//check whether event already exists!
 		if (!events.contains(event)) {
 			events.add(event);
@@ -141,7 +141,7 @@ public class Semester implements Serializable {
      * removes the given element from the list and updates its order
      * @param event
      */
-	public void removeEvent(Date event){
+	public void removeEvent(Event event){
 		events.remove(event);
 		Collections.sort(events);
 	}

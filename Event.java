@@ -3,7 +3,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class Date implements Comparable<Date>, Serializable{
+public class Event implements Comparable<Event>, Serializable{
 	
 	//private Semester semester;
 	//private Course course;
@@ -15,7 +15,7 @@ public class Date implements Comparable<Date>, Serializable{
 	private int remindTime;
 	
 	/*//Konstruktor für Semestertermin
-	public Date(String title, String description, GregorianCalendar date, int remindTime) {
+	public Event(String title, String description, GregorianCalendar date, int remindTime) {
 		//this.semester = semester;
 		this.title = title;
 		this.description = description;
@@ -23,7 +23,7 @@ public class Date implements Comparable<Date>, Serializable{
 	}*/
 	
 	//Konstruktor für Kurstermin
-	public Date(String title, String description, GregorianCalendar date) {
+	public Event(String title, String description, GregorianCalendar date) {
 		//this.course = course;
 		this.title = title;
 		this.description = description;
@@ -97,11 +97,11 @@ public class Date implements Comparable<Date>, Serializable{
 	}
 	
 	@Override
-	public int compareTo(Date d) {
+	public int compareTo(Event d) {
 		return date.compareTo(d.getDate());
 	}
 	
-	public boolean compare(Date d) {
+	public boolean compare(Event d) {
 		if (compareTo(d) == 0 && title.equals(d.getTitle())) {
 			return true;
 		}
@@ -119,10 +119,10 @@ public class Date implements Comparable<Date>, Serializable{
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof Date)) {
+		if (!(obj instanceof Event)) {
 			return false;
 		}
-		Date other = (Date) obj;
+		Event other = (Event) obj;
 		if (date == null) {
 			if (other.date != null) {
 				return false;
@@ -159,7 +159,7 @@ public class Date implements Comparable<Date>, Serializable{
 
 	private void print() {
 		int year = date.get(Calendar.YEAR);
-		int month = date.get(Calendar.MONTH);
+		int month = date.get(Calendar.MONTH) + 1;
 		int day = date.get(Calendar.DAY_OF_MONTH);
 		int hours = date.get(Calendar.HOUR_OF_DAY);
 		int minute = date.get(Calendar.MINUTE);
@@ -171,7 +171,7 @@ public class Date implements Comparable<Date>, Serializable{
 	private void printR() {
 		if (remindDate != null ) {
 			int ryear = remindDate.get(Calendar.YEAR);
-			int rmonth = remindDate.get(Calendar.MONTH);
+			int rmonth = remindDate.get(Calendar.MONTH) + 1;
 			int rday = remindDate.get(Calendar.DAY_OF_MONTH);
 			int rhours = remindDate.get(Calendar.HOUR_OF_DAY);
 			int rminute = remindDate.get(Calendar.MINUTE);
