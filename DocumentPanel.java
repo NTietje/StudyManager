@@ -1,3 +1,4 @@
+package lib;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -188,10 +189,9 @@ public class DocumentPanel {
 	/**
 	 * set the actually selected course, set the JLabel (name of the course) into the panel and update the list of documents 
 	 */
-	public void setCourse(Course course, JLabel courseLabel, int border) {
+	public void setCourse(Course course, NavigationPanel northPanel) {
 		this.course = course;
-		courseLabel.setBorder(BorderFactory.createEmptyBorder(0,border,0,0));
-		containerPanel.add(courseLabel, BorderLayout.NORTH);
+		containerPanel.add(northPanel, BorderLayout.NORTH);
 		updateList();
 	}
 	
