@@ -1,4 +1,3 @@
-
 package lib;
 
 import java.awt.BorderLayout;
@@ -34,7 +33,7 @@ public class UniplanerGUI extends JFrame{
 	private StudyManager manager;
 	private ArrayList<SemesterButton> semesterButtonList;
 	private ArrayList<CourseButton> courseButtonList;
-	private HashMap<JButton, Event> dateMap = new HashMap<>();
+	private HashMap<JButton, Date> dateMap = new HashMap<>();
 	private HashMap<SemesterButton, Semester> semMap = new HashMap<>();
 	private HashMap<CourseButton, Course> courseMap = new HashMap<>();
 	
