@@ -7,6 +7,7 @@ import java.util.Collections;
 
 /**
  * Semester allows the user to assign each semester a title and a directory as well as a list of courses and events.
+ * @author katharina
  */
 public class Semester extends StudyUnit implements Serializable {
 
@@ -114,36 +115,5 @@ public class Semester extends StudyUnit implements Serializable {
 		return this.title.equals(semester.getTitle());
 	}
 
-    /**
-     * returns a list of the semester's events
-     * @return
-     */
-	public ArrayList<Event> getEvents(){
-		return events;
-	}
-
-    /**
-     * adds an event to the semester's list and updates the order of the list
-     * @param event
-     */
-	public void addEvent(Event event){
-		//check whether event already exists!
-		if (!events.contains(event)) {
-			events.add(event);
-			Collections.sort(events);
-		}
-		else {
-			System.out.println("Dieser Termin existiert bereits.");
-		}
-	}
-
-    /**
-     * removes the given element from the list and updates its order
-     * @param event
-     */
-	public void removeEvent(Event event){
-		events.remove(event);
-		Collections.sort(events);
-	}
 
 }

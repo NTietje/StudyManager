@@ -32,6 +32,7 @@ public class EventCreator extends JFrame {
 
         this.unit = unit;
 
+        //create components for user input
         JPanel reminderPanel = new JPanel();
         JPanel btnPanel = new JPanel();
         JPanel timeLabelPanel = new JPanel();
@@ -245,6 +246,7 @@ public class EventCreator extends JFrame {
                     Event event = new Event(title, description, gregCal);
                     event.setReminder(remindTime, minute, hour, day, week);
 
+                    //add event to study unit
                     try {
                         Semester semester = (Semester) EventCreator.this.unit;
                         semester.addEvent(event);
@@ -254,7 +256,6 @@ public class EventCreator extends JFrame {
                         Course course = (Course) EventCreator.this.unit;
                         course.addEvent(event);
                     }
-
 
                     //close window
                     dispose();

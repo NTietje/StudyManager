@@ -9,6 +9,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 /**
  * The class follows a given file path to a file and moves the file to the destination specified in the constructor. If
  * the file is a directory, its contents are moved as well.
+ * @author katharina
  */
 public class MoveFileVisitor extends SimpleFileVisitor<Path> implements Serializable{
 

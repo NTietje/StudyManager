@@ -6,13 +6,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import javax.swing.JOptionPane;
 
 /**
- * Course allows the user to assign each course a title, a list of documents and a directory as well as the semester
- * it belongs to.
+ * Course allows the user to assign each course a title, a list of documents and a directory and to assign the course itself to
+ * a specific semester.
+ * @author katharina
  */
 public class Course extends StudyUnit implements Comparable<Course>, Serializable {
 
@@ -83,36 +83,6 @@ public class Course extends StudyUnit implements Comparable<Course>, Serializabl
 	}
 
 	/**
-	 * returns the list of events associated with the course
-	 * @return
-     */
-	public ArrayList<Event> getEvents(){
-		return events;
-	}
-
-
-	/**
-	 * adds an event to the list of events and updates its order
-     */
-	public void addEvent(Event event){
-  	if (!events.contains(event)) {
-			events.add(event);
-			Collections.sort(events);
-		}
-		else {
-			System.out.println("Dieser Termin existiert bereits.");
-		}
-	}
-
-	/**
-	 * removes an event from the list
-     */
-	public void removeEvent(int index){
-		events.remove(index);
-		//remove via index or compare date and title of events?
-	}
-
-	/**
 	 * returns a list of the documents that belong to the course
 	 * @return
      */
@@ -157,7 +127,7 @@ public class Course extends StudyUnit implements Comparable<Course>, Serializabl
 	
 	/**
 	 * deletes given file from course directory and removes it from the list of documents
-	 * @param document
+	 * @param document to be removed
 	 */
 	public void removeDocument(File document){
 		try {

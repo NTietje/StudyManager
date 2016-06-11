@@ -3,10 +3,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * StateSaver saves the state of a StudyManager object to .UniPlaner.ser.
+ * StateSaver provides a method to save the state of a StudyManager object to a file.
+ * @author katharina
  */
 public class StateSaver {
 
+    /**
+     * saves the state of the StudyManager object to .UniPlaner.ser.
+     * @param studyManager to save
+     */
     public static void saveState(StudyManager studyManager) {
         File file = new File (".UniPlaner.ser");
         if (!file.exists()) {

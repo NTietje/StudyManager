@@ -3,7 +3,8 @@ import java.io.IOException;
 import java.io.Serializable;
 
 /**
- * The class provides a way to recursively delete directories.
+ * Deleter provides a way to recursively delete directories.
+ * @author katharina
  */
 public final class Deleter implements Serializable {
 
