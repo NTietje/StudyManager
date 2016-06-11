@@ -157,7 +157,7 @@ public class Event implements Comparable<Event>, Serializable{
 		return true;
 	}
 
-	private void print() {
+	public void print() {
 		int year = date.get(Calendar.YEAR);
 		int month = date.get(Calendar.MONTH) + 1;
 		int day = date.get(Calendar.DAY_OF_MONTH);

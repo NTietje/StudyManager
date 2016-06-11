@@ -8,7 +8,7 @@ import java.util.Collections;
 /**
  * Semester allows the user to assign each semester a title and a directory as well as a list of courses and events.
  */
-public class Semester implements Serializable {
+public class Semester extends StudyUnit implements Serializable {
 
     static final long serialVersionUID = 1L;
 	private String title;

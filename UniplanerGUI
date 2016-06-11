@@ -9,13 +9,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,7 +27,7 @@ public class UniplanerGUI extends JFrame{
 	private ArrayList<SemesterButton> semesterButtonList;
 	private ArrayList<CourseButton> courseButtonList;
 	private JTextArea howTo;
-	private HashMap<JButton, Date> dateMap = new HashMap<>();
+	private HashMap<JButton, Event> dateMap = new HashMap<>();
 	private HashMap<SemesterButton, Semester> semMap = new HashMap<>();
 	private HashMap<CourseButton, Course> courseMap = new HashMap<>();
 	private StudyManager manager;
@@ -251,7 +249,7 @@ public class UniplanerGUI extends JFrame{
 		JScrollPane datePane = new JScrollPane(datePanel);
 		
 		JPanel editPanel = new JPanel();
-		JButton addDate = new JButton("Add Date");
+		JButton addDate = new JButton("Add Event");
 		
 		JPanel dateHost = new JPanel();
 		JLabel dateLabel = new JLabel("Dates");

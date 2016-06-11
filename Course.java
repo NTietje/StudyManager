@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  * Course allows the user to assign each course a title, a list of documents and a directory as well as the semester
  * it belongs to.
  */
-public class Course implements Comparable<Course>, Serializable {
+public class Course extends StudyUnit implements Comparable<Course>, Serializable {
 
 	static final long serialVersionUID = 1L;
 	private String title;
