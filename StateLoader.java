@@ -1,15 +1,11 @@
+package lib;
+
 import java.io.*;
 
 /**
- * StateLoader provides a method to load a StudyManager object by reading data from a file
- * @author katharina
+ * StateLoader loads a StudyManager object by reading data from the file specified in the constructor.
  */
 public class StateLoader {
-    /**
-     * loads the state of a StudyManager object
-     * @param file to read from
-     * @return StudyManager object
-     */
     public static StudyManager loadState(File file) {
             try {
                 FileInputStream fis = new FileInputStream(file);

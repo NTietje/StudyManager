@@ -1,10 +1,11 @@
+package lib;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
 /**
- * Deleter provides a way to recursively delete directories.
- * @author katharina
+ * The class provides a way to recursively delete directories.
  */
 public final class Deleter implements Serializable {
 

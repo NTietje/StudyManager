@@ -1,3 +1,4 @@
+package lib;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
@@ -7,15 +8,14 @@ import java.util.Collections;
 
 /**
  * Semester allows the user to assign each semester a title and a directory as well as a list of courses and events.
- * @author katharina
  */
-public class Semester extends StudyUnit implements Serializable {
+public class Semester implements Serializable {
 
     static final long serialVersionUID = 1L;
 	private String title;
 	private String path;
 	private ArrayList<Course> courses;
-	private ArrayList<Event> events;
+	private ArrayList<Date> events;
 	
 	public Semester(String title) throws FileAlreadyExistsException, Exception {
 
@@ -115,5 +115,36 @@ public class Semester extends StudyUnit implements Serializable {
 		return this.title.equals(semester.getTitle());
 	}
 
+    /**
+     * returns a list of the semester's events
+     * @return
+     */
+	public ArrayList<Date> getEvents(){
+		return events;
+	}
+
+    /**
+     * adds an event to the semester's list and updates the order of the list
+     * @param event
+     */
+	public void addEvent(Date event){
+		//check whether event already exists!
+		if (!events.contains(event)) {
+			events.add(event);
+			Collections.sort(events);
+		}
+		else {
+			System.out.println("Dieser Termin existiert bereits.");
+		}
+	}
+
+    /**
+     * removes the given element from the list and updates its order
+     * @param event
+     */
+	public void removeEvent(Date event){
+		events.remove(event);
+		Collections.sort(events);
+	}
 
 }
