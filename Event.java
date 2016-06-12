@@ -10,25 +10,22 @@ public class Event implements Comparable<Event>, Serializable{
 	private GregorianCalendar date;
 	private GregorianCalendar remindDate;
 	private boolean [] remindInterval = {false, false, false, false};
-	
 	private String title;
 	private String description;
 	private int remindTime;
+	private StudyUnit eventUnit;
 	
-	/*//Konstruktor für Semestertermin
-	public Event(String title, String description, GregorianCalendar date, int remindTime) {
-		//this.semester = semester;
+	
+	//Konstruktor für Kurstermin oder Semestertermin, Kurs und Semester sind StudyUnits
+	public Event(String title, String description, GregorianCalendar date, StudyUnit eventUnit) {
+		this.eventUnit = eventUnit;
 		this.title = title;
 		this.description = description;
 		this.date = date;
-	}*/
+	}
 	
-	//Konstruktor für Kurstermin
-	public Event(String title, String description, GregorianCalendar date) {
-		//this.course = course;
-		this.title = title;
-		this.description = description;
-		this.date = date;
+	public StudyUnit getStudyUnit() {
+		return eventUnit;
 	}
 		
 	public String getTitle() {
@@ -172,6 +169,15 @@ public class Event implements Comparable<Event>, Serializable{
 			return false;
 		}
 		return true;
+	}
+	
+	public String toString() {
+		int year = date.get(Calendar.YEAR);
+		int month = date.get(Calendar.MONTH) + 1;
+		int day = date.get(Calendar.DAY_OF_MONTH);
+		int hours = date.get(Calendar.HOUR_OF_DAY);
+		int minute = date.get(Calendar.MINUTE);
+		return (title +" | "+ day +"."+ month +"."+ year +" | "+ hours +":"+ minute);
 	}
 
 	public void print() {
