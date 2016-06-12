@@ -1,12 +1,3 @@
-package lib;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,18 +12,32 @@ import java.util.ArrayList;
  */
 public class StudyManager implements Serializable {
 
+    public int width;
+	public int height;
     static final long serialVersionUID = 1L;
     private ArrayList<Semester> semesters;
     private String managerPathString;
 
     public StudyManager() {
         semesters = new ArrayList<>();
-        
     }
-
-    public void test() {
-        System.out.println("test");
+    
+    public void setWidth(int value) {
+    	width = value;
     }
+    
+    public void setHeight(int value) {
+    	height = value;
+    }
+    
+    public int getWidth() {
+    	return width;
+    }
+    
+    public int getHeight() {
+    	return height;
+    }
+    
 
     /**
      * adds a new semester to the list
