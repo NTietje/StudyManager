@@ -8,7 +8,7 @@ import java.util.Collections;
  */
 public class StudyUnit implements Serializable{
 	
-	static final long serialVersionUID = 1L;
+    static final long serialVersionUID = 1L;
     private ArrayList<Event> events;
 
     public StudyUnit() {
