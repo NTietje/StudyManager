@@ -6,9 +6,9 @@ import java.util.Collections;
  * StudyUnit serves as a template for Semester and Course, it stores and manages associated events.
  * @author katharina
  */
-public class StudyUnit  implements Serializable {
-
-    static final long serialVersionUID = 1L;
+public class StudyUnit implements Serializable{
+	
+	static final long serialVersionUID = 1L;
     private ArrayList<Event> events;
 
     public StudyUnit() {
