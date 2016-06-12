@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -23,12 +24,13 @@ public class EventCreator extends JFrame {
     private JSpinner hourSpinner;
     private JSpinner minuteSpinner;
     private JTextArea descrArea;
-    private JComboBox reminderBox;
+    private JComboBox<String> reminderBox;
     private String[] reminderTimes = {"Minutes before", "Hours before", "Days before", "Weeks before"};
     private JTextField reminderField;
     private StudyUnit unit;
+    private UniplanerGUI gui;
 
-    public EventCreator(StudyUnit unit) {
+    public EventCreator(StudyUnit unit, UniplanerGUI gui) {
 
         this.unit = unit;
 
@@ -45,7 +47,6 @@ public class EventCreator extends JFrame {
         titleField.setText(titleString);
         Font font = new Font(null, Font.BOLD, 13);
         titleField.setFont(font);
-
 
         /*locationField = new JTextField(20);
         locationString = "Location";
@@ -68,14 +69,14 @@ public class EventCreator extends JFrame {
         minuteSpinner = new JSpinner(minuteModel);
         JLabel clockLabel = new JLabel (" : ");
 
-        reminderBox = new JComboBox(reminderTimes);
+        reminderBox = new JComboBox<>(reminderTimes);
         reminderBox.setSelectedIndex(-1);
 
         descrArea = new JTextArea(4,10);
         descrArea.setLineWrap(true);
         JScrollPane descrScroll = new JScrollPane(descrArea);
 
-        JButton confirmBtn = new JButton("Confirm");
+        JButton confirmBtn = new JButton("Create");
         JButton cancelBtn = new JButton("Cancel");
 
         setLayout(new BoxLayout(getContentPane(), BoxLayout.PAGE_AXIS));
@@ -111,8 +112,8 @@ public class EventCreator extends JFrame {
         timeLabelPanel.add(timeLabel, BorderLayout.WEST);
 
         btnPanel.setLayout(new FlowLayout());
-        btnPanel.add(confirmBtn);
         btnPanel.add(cancelBtn);
+        btnPanel.add(confirmBtn);
 
         //remove initial text if field gains focus and replace initial text if it loses focus
         titleField.addFocusListener(new FocusAdapter() {
@@ -216,18 +217,21 @@ public class EventCreator extends JFrame {
                     }
 
                     //create event
-                    Event event = new Event(title, description, gregCal);
+                    Event event = new Event(title, description, gregCal, unit);
+                    System.out.println("Event erstellt: " + event.toString());
                     event.setReminder(remindTime, minute, hour, day, week);
 
                     //add event to study unit
                     try {
                         Semester semester = (Semester) EventCreator.this.unit;
                         semester.addEvent(event);
+                        System.out.println("Event wurde Semester hinzugefügt.");
 
                     }
                     catch (ClassCastException ex ){
                         Course course = (Course) EventCreator.this.unit;
                         course.addEvent(event);
+                        System.out.println("Event wurde Kurs hinzugefügt.");
                     }
 
                     //close window
@@ -235,6 +239,8 @@ public class EventCreator extends JFrame {
 
 
                 }
+                
+                gui.loadEvents();
             }
 
         });
@@ -247,7 +253,7 @@ public class EventCreator extends JFrame {
 
         setSize(250,300);
         setResizable(false);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setVisible(true);
 
     }
