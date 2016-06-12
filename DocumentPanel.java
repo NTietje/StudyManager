@@ -1,5 +1,3 @@
-//package lib;
-
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -38,17 +37,19 @@ public class DocumentPanel {
 	private Course course;
 	private JPanel containerPanel;
 	
-	public DocumentPanel(JPanel containerPanel, Color color) {
+	public DocumentPanel(JPanel containerPanel, Color color, int prefx, int prefy, int maxx, int maxy) {
 		this.containerPanel = containerPanel;
 		listModel = new DefaultListModel<>();
 		JList<File> list = new JList<>(listModel);
+		JScrollPane listPane = new JScrollPane(list);
+		
+		listPane.setBorder(BorderFactory.createEmptyBorder());
 		
 		//panel displaying list of documents and buttons
 		containerPanel.setBackground(color);
 		containerPanel.setLayout(new BorderLayout());
-		containerPanel.setPreferredSize(new Dimension(440, 500));
-		containerPanel.setMaximumSize(new Dimension(2000, 2000));
-		containerPanel.setMinimumSize(new Dimension(100, 100));
+		containerPanel.setPreferredSize(new Dimension(prefx, prefy));
+		containerPanel.setMaximumSize(new Dimension(maxx, maxy));
 		
 		JPanel btnPanel = new JPanel();
 		btnPanel.setLayout(new FlowLayout());
@@ -62,11 +63,11 @@ public class DocumentPanel {
 		deleteBtn.setEnabled(false);
 		
 		//displaying list in vertical order and several columns
-		list.setLayoutOrientation(JList.VERTICAL_WRAP);
+		list.setLayoutOrientation(JList.VERTICAL);
 		list.setVisibleRowCount(-1);
 		list.setCellRenderer(new FileListRenderer());
 		
-		containerPanel.add(list, BorderLayout.CENTER);
+		containerPanel.add(listPane, BorderLayout.CENTER);
 		containerPanel.add(btnPanel, BorderLayout.SOUTH);
 		btnPanel.add(openBtn);
 		btnPanel.add(importBtn);
