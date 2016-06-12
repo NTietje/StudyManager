@@ -1,3 +1,4 @@
+
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
@@ -20,13 +21,15 @@ public class EventEditor extends JFrame {
     private JSpinner hourSpinner;
     private JSpinner minuteSpinner;
     private JTextArea descrArea;
-    private JComboBox reminderBox;
+    private JComboBox<String> reminderBox;
     private String[] reminderTimes = {"Minutes before", "Hours before", "Days before", "Weeks before"};
     private JTextField reminderField;
     private Event event;
     private StudyUnit studyUnit;
+    private UniplanerGUI gui;
 
-    public EventEditor(StudyUnit studyUnit, Event event){
+    public EventEditor(StudyUnit studyUnit, Event event, UniplanerGUI gui){
+    	this.gui = gui;
         this.event = event;
         this.studyUnit = studyUnit;
 
@@ -70,7 +73,7 @@ public class EventEditor extends JFrame {
 
         reminderField = new JTextField(3);
 
-        reminderBox = new JComboBox(reminderTimes);
+        reminderBox = new JComboBox<>(reminderTimes);
 
         //display remind date in reminderBox and reminderField
         boolean[] remindInterval = event.getRemindInterval();
@@ -124,8 +127,8 @@ public class EventEditor extends JFrame {
         timeLabelPanel.add(timeLabel, BorderLayout.WEST);
 
         btnPanel.setLayout(new FlowLayout());
-        btnPanel.add(confirmBtn);
         btnPanel.add(deleteBtn);
+        btnPanel.add(confirmBtn);
 
         //monitor input of reminderField
         reminderField.getDocument().addDocumentListener(new NumberCheck(reminderField));
@@ -197,7 +200,9 @@ public class EventEditor extends JFrame {
                     //update reminder
                     EventEditor.this.event.setReminder(remindTime, minute, hour, day, week);
 
-
+                    //update event Buttons
+                    EventEditor.this.gui.loadEvents();
+                    
                     //close window
                     dispose();
 
@@ -211,13 +216,15 @@ public class EventEditor extends JFrame {
         deleteBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e){
                 EventEditor.this.studyUnit.removeEvent(EventEditor.this.event);
+                EventEditor.this.gui.deletEvent(EventEditor.this.event);
+                EventEditor.this.gui.loadEvents();
                 dispose();
             }
         });
 
         setVisible(true);
         setSize(250,250);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
 }
