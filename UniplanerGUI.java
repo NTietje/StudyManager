@@ -1,5 +1,3 @@
-//package lib;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,8 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -33,15 +34,23 @@ public class UniplanerGUI extends JFrame{
 	private StudyManager manager;
 	private ArrayList<SemesterButton> semesterButtonList;
 	private ArrayList<CourseButton> courseButtonList;
-	private HashMap<JButton, Event> dateMap = new HashMap<>();
+	private ArrayList<JButton> eventButtonList;
+	private ArrayList<Event> events;
+	private HashMap<JButton, Event> eventMap = new HashMap<>();
 	private HashMap<SemesterButton, Semester> semMap = new HashMap<>();
 	private HashMap<CourseButton, Course> courseMap = new HashMap<>();
-	
 	private JTextArea howTo;
-	private JPanel courseAddPanel, semesterAddPanel, semesterHost, semesterHostIn, courseHostIn, northPanel;
+	private JPanel courseAddPanel, semesterAddPanel, semesterHost, semesterHostIn, courseHostIn, northPanel, eventPanel;
 	private NavigationPanel semNorthPanel, courseNorthPanel, docNorthPanel;
 	private boolean load = false;
-	private boolean loadCourses = false;
+
+	private int maxx = 2000;
+	private int maxy = 2000;
+	private int prefx = 500;
+	private  int prefy = 400;
+	
+	//Event Objects
+	private JButton addEventBtn;
 	
 	//go forward Objects
 	private JLabel courseLabel;
@@ -49,17 +58,23 @@ public class UniplanerGUI extends JFrame{
 	private Course currentCourse;
 	private JButton currentSemButton, currentCourseButton;
 	
-	
 	//DocumentPanel Objects
 	private Color mainPanelColor = Color.WHITE;
-	private int border = 10;
 	private DocumentPanel documentPanel;
 	
 	//North Panel and go back Objects
 	private boolean inCourse, inSemester, inOverView;
+
+	
 	
 	public UniplanerGUI(StudyManager manager) {
 		this.manager = manager;
+		int hostX = 800;
+		int hostY = 600;
+		
+		//event Objects
+		eventButtonList = new ArrayList<>();
+		events = new ArrayList<>();
 		
 		//Navigation
 		currentSemButton = new JButton();
@@ -87,13 +102,22 @@ public class UniplanerGUI extends JFrame{
 		if (file.exists()) {
 			this.manager = StateLoader.loadState(file);
 			System.out.println("manager geladen");
+			System.out.println("managerBreite " + this.manager.width);
+			System.out.println("managerHoehe " + this.manager.height);
 			load = true;
 		}
 		else {
 			this.manager = new StudyManager();
 		}
 		
+		if(load) {
+			hostX = this.manager.getWidth();
+			hostY = this.manager.getHeight();
+		}
+		
 		//allgemeine Einstellungen
+		int minx = 100;
+		int miny = 100;
 		int x = 150;
 		int y = 30;
 		
@@ -106,9 +130,9 @@ public class UniplanerGUI extends JFrame{
 		courseHostIn = new JPanel();
 		courseHostIn.setBackground(mainPanelColor);
 		courseHostIn.setLayout(new BorderLayout());
-		courseHostIn.setPreferredSize(new Dimension(440, 500));
-		courseHostIn.setMaximumSize(new Dimension(2000, 2000));
-		documentPanel = new DocumentPanel(courseHostIn, headerColor);
+		courseHostIn.setPreferredSize(new Dimension(prefx, prefy));
+		courseHostIn.setMaximumSize(new Dimension(maxx, maxy));
+		documentPanel = new DocumentPanel(courseHostIn, headerColor, prefx, prefy, maxx, maxy);
 		
 		
 		//Panel Kurse			##############################################
@@ -118,7 +142,7 @@ public class UniplanerGUI extends JFrame{
 		courseLabel = new JLabel("");
 		
 		//semesterLabelIn.setForeground(fondColor);
-		courseLabel.setBorder(BorderFactory.createEmptyBorder(0,border,0,0));
+		courseLabel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
 		
 		semesterPanelIn.setLayout(new BorderLayout());
 		semesterPanelIn.setBackground(mainPanelColor);
@@ -126,9 +150,9 @@ public class UniplanerGUI extends JFrame{
 		
 		semesterHostIn.setLayout(new BorderLayout());
 		//semesterHost.setBorder(BorderFactory.createLineBorder(mainPanelColor));
-		semesterHostIn.setPreferredSize(new Dimension(440, 500));
-		semesterHostIn.setMaximumSize(new Dimension(2000, 2000));
-		semesterHostIn.setMinimumSize(new Dimension(100, 100));
+		semesterHostIn.setPreferredSize(new Dimension(prefx, prefy));
+		semesterHostIn.setMaximumSize(new Dimension(maxx, maxy));
+		semesterHostIn.setMinimumSize(new Dimension(minx, miny));
 		semesterHostIn.setBackground(headerColor);
 		semesterHostIn.add(semesterPanelIn, BorderLayout.CENTER);
 		
@@ -163,6 +187,10 @@ public class UniplanerGUI extends JFrame{
 				public void actionPerformed(ActionEvent e) {
 					String name = courseName.getText();
 					courseName.setText("");
+					if (name.contains("/")) {
+						name = name.replace('/', '\\');
+						System.out.println(name);
+					}
 					StudyManager manager = UniplanerGUI.this.manager;
 					if (name != null) {
 						try {
@@ -208,16 +236,16 @@ public class UniplanerGUI extends JFrame{
 		howTo.setEditable(false);
 		howTo.setLineWrap(true);
 		howTo.setWrapStyleWord(true);
-		howTo.setBorder(BorderFactory.createEmptyBorder(0,border+5,0,0));
+		howTo.setBorder(BorderFactory.createEmptyBorder(0,15,0,0));
 		
 		semesterPanel.setLayout(new BorderLayout());
 		semesterPanel.setBackground(mainPanelColor);
 	
 		semesterHost.setLayout(new BorderLayout());
 		//semesterHost.setBorder(BorderFactory.createLineBorder(mainPanelColor));
-		semesterHost.setPreferredSize(new Dimension(440, 500));
-		semesterHost.setMaximumSize(new Dimension(2000, 2000));
-		semesterHost.setMinimumSize(new Dimension(100, 100));
+		semesterHost.setPreferredSize(new Dimension(prefx, prefy));
+		semesterHost.setMaximumSize(new Dimension(maxx, maxy));
+		semesterHost.setMinimumSize(new Dimension(minx, miny));
 		semesterHost.setBackground(headerColor);
 		semesterHost.add(semNorthPanel, BorderLayout.NORTH);
 		semesterHost.add(semesterPanel, BorderLayout.CENTER);
@@ -286,18 +314,20 @@ public class UniplanerGUI extends JFrame{
 			});
 			
 		//Panel Termine 		#############################################
-		JPanel datePanel = new JPanel();
-		JScrollPane datePane = new JScrollPane(datePanel);
+		eventPanel = new JPanel();
+		JScrollPane datePane = new JScrollPane(eventPanel);
 		
 		JPanel editPanel = new JPanel();
-		JButton addDate = new JButton("Add Date");
+		addEventBtn = new JButton();
+		addEventBtn.addActionListener(new AddEventListener());
+		addEventBtn.setVisible(false);
 		
 		JPanel dateHost = new JPanel();
-		JLabel dateLabel = new JLabel("Dates");
+		JLabel dateLabel = new JLabel("Events");
 		
 		JPanel southDatePanel = new JPanel();
 		southDatePanel.setLayout(new BorderLayout());
-		southDatePanel.add(addDate, BorderLayout.EAST);
+		southDatePanel.add(addEventBtn, BorderLayout.EAST);
 		
 		datePane.setBorder(BorderFactory.createEmptyBorder());
 		datePane.setBackground(dateColor);
@@ -307,31 +337,23 @@ public class UniplanerGUI extends JFrame{
 		editPanel.add(southDatePanel);
 		
 		//dateLabel.setForeground(fondColor);
-		dateLabel.setBorder(BorderFactory.createEmptyBorder(0,border,0,0));
+		dateLabel.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
 		
 		//datePanel.setBorder(BorderFactory.createLineBorder(mainPanelColor));
-		datePanel.setBackground(dateColor);
-		datePanel.setLayout(new BoxLayout(datePanel, BoxLayout.Y_AXIS));
+		eventPanel.setBackground(dateColor);
+		eventPanel.setLayout(new BoxLayout(eventPanel, BoxLayout.Y_AXIS));
 		
 		dateHost.setLayout(new BorderLayout());
 		dateHost.setPreferredSize(new Dimension(250, 500));
-		dateHost.setMaximumSize(new Dimension(500, 1500));
-		dateHost.setMinimumSize(new Dimension(250, 200));
+		dateHost.setMaximumSize(new Dimension(1100, 1500));
+		dateHost.setMinimumSize(new Dimension(200, 200));
 		dateHost.setBackground(headerColor);
 		dateHost.add(dateLabel, BorderLayout.NORTH);
 		dateHost.add(datePane, BorderLayout.CENTER);
 		dateHost.add(editPanel, BorderLayout.SOUTH);
 		
-		//Termine
-		ArrayList<JButton> terminButtonList = new ArrayList<>();
-		for(int i = 0; i<10; i++) {
-			String title = "MG2 Abgabe";
-			String date = "22.07.16";
-			String time = "16:00";
-			terminButtonList.add(new JButton(title + " | " + date + " | " + time));
-			datePanel.add(terminButtonList.get(i));
-		}
-		
+		//Events beim Start laden
+		loadEvents();
 		
 		//Uniplaner Hauptfenster #############################################
 		JPanel host = new JPanel();
@@ -354,8 +376,9 @@ public class UniplanerGUI extends JFrame{
 		//Fenster anzeigen, Einstellungen		#############################################
 		updateSemesters();
 		addWindowListener(new SaveManagerListener(this.manager));
+		addComponentListener(new WindowSizeListener(UniplanerGUI.this, this.manager));
 		setVisible(true);
-		setPreferredSize(new Dimension(700, 600));
+		setPreferredSize(new Dimension(hostX, hostY));
 		pack();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -378,6 +401,45 @@ public class UniplanerGUI extends JFrame{
 		load = false;
 		System.out.println(manager.getSemesters().size());
 		System.out.println(semesterButtonList.size());
+	}
+	
+	public void loadEvents() {
+		eventButtonList.clear();
+		eventMap.clear();
+		eventPanel.removeAll();
+		events.clear();
+		System.out.println("Terminpanel leeren");
+		System.out.println("Semesteranzahl: " + manager.getSemesters().size());
+		for (Semester s : manager.getSemesters()) {
+			System.out.println("Events im Semester: " + s.getEvents().size());
+			for (Event eS : s.getEvents()) {
+				events.add(eS);
+				System.out.println("SemesterEvent hinzugefügt bei GUI: " + eS.toString());
+			}
+			for (Course c : s.getCourses()) {
+				for (Event eC : c.getEvents()) {
+					events.add(eC);
+					System.out.println("KursEvent hinzugefügt bei GUI: " + eC.toString());
+				}
+			}
+		}
+		Collections.sort(events);
+		
+		for (Event e : events) {
+			JButton newBtn = new JButton(e.toString());
+			newBtn.addActionListener(new EventListener());
+			eventButtonList.add(newBtn);
+			eventMap.put(newBtn, e);
+			eventPanel.add(newBtn);
+		}
+		eventPanel.validate();
+		eventPanel.repaint();
+	}
+	
+	public void deletEvent(Event event) {
+		System.out.println("im delet: bisherige EventAnzahl: " + events.size() );
+		events.remove(event);
+		System.out.println("im delet: neue EventAnzahl: " + events.size() );
 	}
 	
 	private void loadCourses() {
@@ -404,9 +466,13 @@ public class UniplanerGUI extends JFrame{
 			courseHostIn.setVisible(true);
 			semesterHostIn.setVisible(false);
 			currentCourse = courseMap.get(e.getSource());
+			
 			docNorthPanel.setText(courseNorthPanel.getText() + " > " + currentCourse.getTitle());
 			documentPanel.setCourse(currentCourse, docNorthPanel);
-			docNorthPanel.getDeletButton().setText("Delet " + currentCourse.getTitle());
+			docNorthPanel.getDeletButton().setText("Delete " + currentCourse.getTitle());
+			
+			addEventBtn.setText("Add Event To " + currentCourse.getTitle());
+			
 			inSemester = false;
 			inCourse = true;
 		}
@@ -419,10 +485,15 @@ public class UniplanerGUI extends JFrame{
 			semesterHost.setVisible(false);
 			semesterHostIn.setVisible(true);
 			currentSem = semMap.get(e.getSource());
+			
 			courseNorthPanel.setText("Semesters > " + currentSem.getTitle());
 			semesterHostIn.add(courseNorthPanel, BorderLayout.NORTH);
-			courseNorthPanel.getDeletButton().setText("Delet " + currentSem.getTitle());
+			courseNorthPanel.getDeletButton().setText("Delete " + currentSem.getTitle());
 			loadCourses();
+			
+			addEventBtn.setVisible(true);
+			addEventBtn.setText("Add Event To " +  currentSem.getTitle());
+			
 			inOverView = false;
 			inCourse = false;
 			inSemester = true;
@@ -460,21 +531,44 @@ public class UniplanerGUI extends JFrame{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (inCourse) {
+				addEventBtn.setText("Add Event To " + currentSem.getTitle());
 				semesterHostIn.setVisible(true);
 				courseHostIn.setVisible(false);
 				inSemester = true;
 				inCourse = false;
 			}
 			else if (inSemester) {
+				addEventBtn.setVisible(false);
 				semesterHost.setVisible(true);
 				semesterHostIn.setVisible(false);
 				inOverView = true;
 				inSemester = false;
 			}
 			else if (inOverView) {
-				UniplanerGUI.this.semNorthPanel.getReturnButton().setEnabled(false);
+				semNorthPanel.getReturnButton().setEnabled(false);
 			}
 		}
 	}
+	
+	private class EventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			new EventEditor(eventMap.get(e.getSource()).getStudyUnit(), eventMap.get(e.getSource()), UniplanerGUI.this);
+		}
+	}
+	
+	private class AddEventListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (inCourse) {
+				new EventCreator(currentCourse, UniplanerGUI.this);
+			}
+			else if (inSemester) {
+				new EventCreator(currentSem, UniplanerGUI.this);
+			}
+		}
+	}
+	
+	
 
 }
