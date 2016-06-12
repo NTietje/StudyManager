@@ -1,5 +1,3 @@
-//package lib;
-
 import javax.swing.SwingUtilities;
 
 public class StudyController {
@@ -20,6 +18,7 @@ public class StudyController {
 	public static void main(String[] args) {
 		new StudyController();
 	}
+	
 	
 
 }
